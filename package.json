@@ -1,0 +1,16 @@
+{
+  "name": "cflo",
+  "version": "0.0.1",
+  "description": "Minimal, type-safe logger for Cloudflare Workers — pretty or JSON, with log level filtering and edge-safe methods only.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "tsdown": "^0.11.9"
+  }
+}
