@@ -6,7 +6,9 @@
   "main": "index.ts",
   "scripts": {
     "build": "tsdown",
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "biome check ./src",
+    "typecheck": "tsc --noEmit"
   },
   "exports": {
     ".": {

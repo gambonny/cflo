@@ -1,6 +1,6 @@
-import type { Logger, LoggerConfig, LogLevel } from "./types"
-import { getSupportedLevels, levelOrder } from "./levels"
 import { formatLog } from "./format"
+import { getSupportedLevels, levelOrder } from "./levels"
+import type { LogLevel, Logger, LoggerConfig } from "./types"
 
 export function createLogger(config: LoggerConfig): Logger {
 	const supported = getSupportedLevels()
