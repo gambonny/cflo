@@ -13,7 +13,10 @@ importers:
         version: 1.9.4
       tsdown:
         specifier: ^0.11.9
-        version: 0.11.9
+        version: 0.11.9(typescript@5.8.3)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
 
 packages:
 
@@ -338,6 +341,11 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
+  typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   unconfig@7.3.2:
     resolution: {integrity: sha512-nqG5NNL2wFVGZ0NA/aCFw0oJ2pxSf1lwg4Z5ill8wd7K4KX/rQbHlwbh+bjctXL5Ly1xtzHenHGOK0b+lG6JVg==}
 
@@ -541,7 +549,7 @@ snapshots:
 
   resolve-pkg-maps@1.0.0: {}
 
-  rolldown-plugin-dts@0.12.3(rolldown@1.0.0-beta.8-commit.d95f99e):
+  rolldown-plugin-dts@0.12.3(rolldown@1.0.0-beta.8-commit.d95f99e)(typescript@5.8.3):
     dependencies:
       '@babel/generator': 7.27.1
       '@babel/parser': 7.27.2
@@ -551,6 +559,8 @@ snapshots:
       dts-resolver: 2.0.1
       get-tsconfig: 4.10.0
       rolldown: 1.0.0-beta.8-commit.d95f99e
+    optionalDependencies:
+      typescript: 5.8.3
     transitivePeerDependencies:
       - oxc-resolver
       - supports-color
@@ -583,7 +593,7 @@ snapshots:
       fdir: 6.4.4(picomatch@4.0.2)
       picomatch: 4.0.2
 
-  tsdown@0.11.9:
+  tsdown@0.11.9(typescript@5.8.3):
     dependencies:
       ansis: 4.0.0
       cac: 6.7.14
@@ -593,11 +603,13 @@ snapshots:
       empathic: 1.1.0
       hookable: 5.5.3
       rolldown: 1.0.0-beta.8-commit.d95f99e
-      rolldown-plugin-dts: 0.12.3(rolldown@1.0.0-beta.8-commit.d95f99e)
+      rolldown-plugin-dts: 0.12.3(rolldown@1.0.0-beta.8-commit.d95f99e)(typescript@5.8.3)
       semver: 7.7.2
       tinyexec: 1.0.1
       tinyglobby: 0.2.13
       unconfig: 7.3.2
+    optionalDependencies:
+      typescript: 5.8.3
     transitivePeerDependencies:
       - '@oxc-project/runtime'
       - oxc-resolver
@@ -606,6 +618,8 @@ snapshots:
 
   tslib@2.8.1:
     optional: true
+
+  typescript@5.8.3: {}
 
   unconfig@7.3.2:
     dependencies:
