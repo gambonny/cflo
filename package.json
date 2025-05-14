@@ -5,7 +5,8 @@
   "description": "Minimal, type-safe logger for Cloudflare Workers — pretty or JSON, with log level filtering and edge-safe methods only.",
   "main": "index.ts",
   "scripts": {
-    "build": "tsdown"
+    "build": "tsdown",
+    "test": "vitest run"
   },
   "exports": {
     ".": {
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "tsdown": "^0.11.9",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.3"
   }
 }
