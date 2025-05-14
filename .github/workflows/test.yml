@@ -26,9 +26,9 @@ jobs:
         run: pnpm install
 
       - name: Lint with Biome
-        run: pnpm check
+        run: pnpm lint
 
-      - name: Type check
+      - name: Type Typecheck
         run: pnpm typecheck
 
       - name: Run tests
