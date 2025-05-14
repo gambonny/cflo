@@ -4,13 +4,14 @@
   "description": "Minimal, type-safe logger for Cloudflare Workers — pretty or JSON, with log level filtering and edge-safe methods only.",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsdown"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.10.0",
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "tsdown": "^0.11.9"
   }
 }
