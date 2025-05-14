@@ -1,9 +1,11 @@
 {
   "name": "cflo",
+  "author": "Jonny Gamba",
   "sideEffects": false,
   "version": "0.0.1",
   "description": "Minimal, type-safe logger for Cloudflare Workers — pretty or JSON, with log level filtering and edge-safe methods only.",
-  "main": "index.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsdown",
     "test": "vitest run",
@@ -16,9 +18,14 @@
       "types": "./src/index.ts"
     }
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cloudflare",
+    "worker",
+    "logger",
+    "edge",
+    "typescript"
+  ],
+  "license": "MIT",
   "packageManager": "pnpm@10.10.0",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
