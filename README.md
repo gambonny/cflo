@@ -2,6 +2,8 @@
 
 > Minimal, typed logger for Cloudflare Workers
 
+<br />
+
 Cloudflare Workers **do not offer built-in log level filtering** —  every `console.log`, `debug`, or `info` prints to the log stream unconditionally. This can quickly flood your logs and make it hard to focus on meaningful signals.
 
 `cflo` solves this by introducing a **typed, runtime-configurable logger** that lets you:
