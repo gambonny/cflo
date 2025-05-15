@@ -1,20 +1,17 @@
+import { validateLoggerConfig } from "@/contracts"
 import { formatLog } from "@/formatter"
-import { getSupportedLevels, levelOrder } from "@/levels"
+import { getSupportedLevels, shouldLogLevel } from "@/levels"
+import type { Logger } from "@/types"
 
-import type { Logger, LoggerConfig } from "@/types"
+const supportedLevels = getSupportedLevels()
 
-export function createLogger(config: LoggerConfig): Logger {
-	const supported = getSupportedLevels()
-
-	const shouldLog = (level: LoggerConfig["level"]): boolean => {
-		return levelOrder[level] >= levelOrder[config.level]
-	}
-
+export function createLogger(input: unknown): Logger {
+	const config = validateLoggerConfig(input)
 	const logger: Partial<Logger> = {}
 
-	for (const level of supported) {
+	for (const level of supportedLevels) {
 		logger[level] = (msg, meta) => {
-			if (!shouldLog(level)) return
+			if (!shouldLogLevel(level, config.level)) return
 			console[level](formatLog(level, config.format, msg, meta))
 		}
 	}
@@ -23,11 +20,11 @@ export function createLogger(config: LoggerConfig): Logger {
 		get(target, prop) {
 			if (prop in target) return target[prop as keyof Logger]
 			console.warn(
-				`logger.${String(prop)} is not supported in this environment. Supported: ${supported.join(", ")}`,
+				`logger.${String(prop)} is not supported in this environment. Supported: ${supportedLevels.join(", ")}`,
 			)
 			return () => {}
 		},
 	})
 }
 
-export type { Logger, LoggerConfig } from "./types"
+export type { Logger, LoggerConfig } from "@/types"

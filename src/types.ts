@@ -1,9 +1,8 @@
 import type { InferOutput } from "valibot"
-import type { createLoggerContract } from "./contracts"
+import type { LoggerConfigContract } from "@/contracts"
 
 // exports
-export type LoggerConfig = InferOutput<typeof createLoggerContract>
-
+export type LoggerConfig = InferOutput<typeof LoggerConfigContract>
 export type LogMethod = (msg: string, meta?: unknown) => void
 
 export interface Logger {
