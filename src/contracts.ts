@@ -1,7 +1,7 @@
-import * as v from "valibot"
-import { getSupportedLevels } from "@/levels"
 import { getSupportedFormats } from "@/formats"
+import { getSupportedLevels } from "@/levels"
 import type { LoggerConfig } from "@/types"
+import * as v from "valibot"
 
 export const LoggerConfigContract = v.object({
 	level: v.picklist(getSupportedLevels()),

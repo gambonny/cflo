@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 import { validateLoggerConfig } from "../src/contracts"
-import { getSupportedLevels } from "../src/levels"
 import { getSupportedFormats } from "../src/formats"
+import { getSupportedLevels } from "../src/levels"
 
 describe("validateLoggerConfig", () => {
 	const levelDefault = getSupportedLevels()[0]

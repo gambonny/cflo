@@ -1,5 +1,5 @@
-import type { InferOutput } from "valibot"
 import type { LoggerConfigContract } from "@/contracts"
+import type { InferOutput } from "valibot"
 
 // exports
 export type LoggerConfig = InferOutput<typeof LoggerConfigContract>
