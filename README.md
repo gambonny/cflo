@@ -17,6 +17,20 @@ Cloudflare Workers **do not offer built-in log level filtering** — every `cons
 
 <br />
 
+## Log Levels
+
+From lowest to highest:
+
+- `"debug"` (everything logs)
+- `"info"`
+- `"log"`
+- `"warn"`
+- `"error"` (only errors log)
+
+If you configure `level: "warn"`, only `warn()` and `error()` will produce output.
+
+<br />
+
 ## Features
 
 - ✅ Fully typed: `debug()`, `info()`, `log()`, `warn()`, `error()`
@@ -39,7 +53,7 @@ const logger = createLogger({
 })
 
 logger.info('User registered', { email: 'user@example.com' })
-logger.debug('This won’t print unless level is debug or lower')
+logger.debug('This won’t print unless level is set to "debug"')
 ```
 
 You can safely pass configuration from environment variables like this:
@@ -57,7 +71,7 @@ If the config is invalid (e.g. `LOGGER_LEVEL="silent"`), `cflo` will:
 
 <br />
 
-## ⚠️ Console method support in Cloudflare Workers
+## ⚠️ Console methods support in Cloudflare Workers
 
 Only the following `console` methods are supported by the Workers runtime:
 
@@ -68,4 +82,3 @@ Only the following `console` methods are supported by the Workers runtime:
 - `console.error`
 
 Any unsupported method accessed via the logger (e.g. `logger.table()`) will emit a warning and do nothing.
-
