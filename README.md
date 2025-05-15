@@ -26,7 +26,7 @@ Cloudflare Workers **do not offer built-in log level filtering** —  every `con
 ## Usage
 
 ```ts
-import { createLogger } from 'cflo'
+import { createLogger } from '@gambonny/cflo'
 
 const logger = createLogger({
   level: 'info',
