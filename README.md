@@ -3,7 +3,7 @@
 > Minimal, typed logger for Cloudflare Workers
 
 ⚠️ **This logger is designed specifically for [Cloudflare Workers](https://developers.cloudflare.com/workers/)**.
-Only the following console methods are supported by the platform:
+Only the following console methods are supported by the [platform](https://developers.cloudflare.com/workers/runtime-apis/console/):
 
 - `console.debug`
 - `console.info`
