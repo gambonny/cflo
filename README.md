@@ -13,11 +13,11 @@ Cloudflare Workers **do not offer built-in log level filtering** —  every `con
 
 ## Features
 
-✅ Fully typed: `debug()`, `info()`, `log()`, `warn()`, `error()`
-✅ Runtime log level filtering
-✅ `pretty` or `json` output
-✅ Zero dependencies
-✅ Designed for Cloudflare Workers
+- ✅ Fully typed: `debug()`, `info()`, `log()`, `warn()`, `error()`
+- ✅ Runtime log level filtering
+- ✅ `pretty` or `json` output
+- ✅ Zero dependencies
+- ✅ Designed for Cloudflare Workers
 
 ---
 
