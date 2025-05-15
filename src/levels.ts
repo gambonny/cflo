@@ -1,7 +1,6 @@
-export const logLevels = ["debug", "info", "log", "warn", "error"] as const
-export type LogLevel = (typeof logLevels)[number]
+const logLevels = ["debug", "info", "log", "warn", "error"] as const
 
-export function getSupportedLevels(): readonly LogLevel[] {
+export function getSupportedLevels(): readonly (typeof logLevels)[number][] {
 	return logLevels
 }
 

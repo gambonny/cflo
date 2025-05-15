@@ -1,9 +1,8 @@
-import type { LogFormat, LogLevel } from "./types"
+import type { LoggerConfig } from "@/types"
 
 export function formatLog(
-	level: LogLevel,
-	format: LogFormat,
-	hostname: string,
+	level: LoggerConfig["level"],
+	format: LoggerConfig["format"],
 	msg: string,
 	meta?: unknown,
 ): string {
@@ -13,7 +12,6 @@ export function formatLog(
 			level,
 			msg,
 			meta,
-			hostname,
 		})
 	}
 

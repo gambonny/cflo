@@ -1,13 +1,8 @@
-import type { getSupportedLevels } from "./levels"
+import type { InferOutput } from "valibot"
+import type { createLoggerContract } from "./contracts"
 
-export type LogLevel = ReturnType<typeof getSupportedLevels>[number]
-export type LogFormat = "pretty" | "json"
-
-export interface LoggerConfig {
-	level: LogLevel
-	format: LogFormat
-	hostname?: string
-}
+// exports
+export type LoggerConfig = InferOutput<typeof createLoggerContract>
 
 export type LogMethod = (msg: string, meta?: unknown) => void
 

@@ -18,7 +18,6 @@ describe("cflo logger", () => {
 		const logger = createLogger({
 			level: "info",
 			format: "pretty",
-			hostname: "test",
 		})
 
 		logger.debug("ignored")
@@ -40,7 +39,6 @@ describe("cflo logger", () => {
 		const logger = createLogger({
 			level: "debug",
 			format: "json",
-			hostname: "edge",
 		})
 
 		logger.info("json test", { id: 123 })
@@ -49,10 +47,9 @@ describe("cflo logger", () => {
 
 		expect(raw).toBeDefined()
 
-		const parsed = JSON.parse(raw)
+		const parsed = JSON.parse(raw ?? "")
 
 		expect(parsed.level).toBe("info")
-		expect(parsed.hostname).toBe("edge")
 		expect(parsed.meta).toEqual({ id: 123 })
 	})
 
@@ -60,7 +57,6 @@ describe("cflo logger", () => {
 		const logger = createLogger({ level: "debug", format: "pretty" })
 		const warn = vi.spyOn(console, "warn").mockImplementation(() => {})
 
-		// @ts-expect-error: testing unsupported access
 		logger.table()
 
 		expect(warn).toHaveBeenCalledOnce()

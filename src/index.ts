@@ -1,11 +1,12 @@
-import { formatLog } from "./format"
-import { getSupportedLevels, levelOrder } from "./levels"
-import type { LogLevel, Logger, LoggerConfig } from "./types"
+import { formatLog } from "@/formatter"
+import { getSupportedLevels, levelOrder } from "@/levels"
+
+import type { Logger, LoggerConfig } from "@/types"
 
 export function createLogger(config: LoggerConfig): Logger {
 	const supported = getSupportedLevels()
 
-	const shouldLog = (level: LogLevel): boolean => {
+	const shouldLog = (level: LoggerConfig["level"]): boolean => {
 		return levelOrder[level] >= levelOrder[config.level]
 	}
 
@@ -14,15 +15,7 @@ export function createLogger(config: LoggerConfig): Logger {
 	for (const level of supported) {
 		logger[level] = (msg, meta) => {
 			if (!shouldLog(level)) return
-			console[level](
-				formatLog(
-					level,
-					config.format,
-					config.hostname ?? "unknown",
-					msg,
-					meta,
-				),
-			)
+			console[level](formatLog(level, config.format, msg, meta))
 		}
 	}
 
