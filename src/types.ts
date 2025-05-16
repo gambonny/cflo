@@ -1,5 +1,5 @@
-import type { RequireAllOrNone } from "type-fest"
 import type { LoggerConfigContract } from "@/contracts"
+import type { RequireAllOrNone } from "type-fest"
 import type { InferOutput } from "valibot"
 
 // Restrict each segment to lowercase only
