@@ -1,11 +1,11 @@
 import { validateLoggerConfig } from "@/contracts"
 import { formatLog } from "@/formatter"
 import { getSupportedLevels, shouldLogLevel } from "@/levels"
-import type { Logger } from "@/types"
+import type { Logger, LoggerConfig } from "@/types"
 
 const supportedLevels = getSupportedLevels()
 
-export function createLogger(input: unknown): Logger {
+export function createLogger(input: LoggerConfig): Logger {
 	const config = validateLoggerConfig(input)
 	const logger: Partial<Logger> = {}
 

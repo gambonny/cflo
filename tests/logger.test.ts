@@ -16,7 +16,7 @@ describe("cflo logger", () => {
 
 	it("logs messages at or above the active level", () => {
 		const logger = createLogger({
-			level: "info",
+			level: "dkd",
 			format: "pretty",
 		})
 
@@ -37,7 +37,7 @@ describe("cflo logger", () => {
 		})
 
 		const logger = createLogger({
-			level: "debug",
+			level: "lslsls",
 			format: "json",
 		})
 
