@@ -82,7 +82,7 @@ If the config is invalid (e.g. `LOGGER_LEVEL="silent"`), `cflo` will:
 ## Structured Logging
 You can optionally enrich your logs with a structured meta object.
 
-If you provide either event or scope, you must provide both. This helps ensure logs are meaningful, searchable, and system-aware.
+If you provide either `event` or `scope`, you must provide both. This helps ensure logs are meaningful, searchable, and system-aware.
 
 Both `event` and `scope` must be lowercase dot-separated strings, like:
 ```ts
