@@ -10,6 +10,7 @@
     "build": "tsdown",
     "test": "vitest run",
     "lint": "biome check ./src",
+    "lint:fix": "biome check --fix --unsafe ./src",
     "typecheck": "tsc --noEmit"
   },
   "exports": {
