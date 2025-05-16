@@ -62,4 +62,29 @@ describe("cflo logger", () => {
 		expect(warn).toHaveBeenCalledOnce()
 		expect(warn.mock.calls[0][0]).toContain("logger.table is not supported")
 	})
+
+	it("injects context into meta when provided", () => {
+		const jsonOutput: string[] = []
+
+		vi.spyOn(console, "info").mockImplementation(msg => {
+			jsonOutput.push(msg)
+		})
+
+		const logger = createLogger(
+			{ level: "info", format: "json" },
+			{ request_id: "abc-123", region: "co" },
+		)
+
+		logger.info("with context", { user: "john" })
+
+		const raw = jsonOutput.find(s => s.includes("with context"))
+		expect(raw).toBeDefined()
+
+		const parsed = JSON.parse(raw ?? "")
+
+		expect(parsed.meta).toEqual({
+			user: "john",
+			context: { request_id: "abc-123", region: "co" },
+		})
+	})
 })
