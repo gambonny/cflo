@@ -1,10 +1,10 @@
-import type { LoggerConfig } from "@/types"
+import type { LoggerConfig, Meta } from "@/types"
 
 export function formatLog(
 	level: LoggerConfig["level"],
 	format: LoggerConfig["format"],
 	msg: string,
-	meta?: unknown,
+	meta?: Meta,
 ): string {
 	if (format === "json") {
 		return JSON.stringify({

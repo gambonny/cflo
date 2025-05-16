@@ -42,6 +42,35 @@ If you configure `level: "warn"`, only `warn()` and `error()` will produce outpu
 
 <br />
 
+## Structured Logging
+You can optionally enrich your logs with a structured meta object.
+
+If you provide either event or scope, you must provide both. This helps ensure logs are meaningful, searchable, and system-aware.
+
+Both `event` and `scope` must be lowercase dot-separated strings, like:
+
+event: `user.signup.success`
+
+scope: `auth.routes.signup`
+
+You can also add any extra fields:
+
+```ts
+logger.info('User signed up', {
+  event: 'user.signup.success',
+  scope: 'auth.routes.signup',
+  user_id: 'u_123',
+  duration_ms: 142,
+  outcome: 'success',
+})
+```
+
+If only one of `event` or `scope` is provided, TypeScript will raise an error.
+
+🔗 See implementation details in [#1](https://github.com/gambonny/cflo/pull/1) – Enforce structured meta in logger
+
+<br />
+
 ## Usage
 
 ```ts
