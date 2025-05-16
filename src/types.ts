@@ -23,7 +23,9 @@ export type Meta = RequireAllOrNone<StructuredMeta> & {
 
 // exports
 export type LoggerConfig = InferOutput<typeof LoggerConfigContract>
-export type LogMethod = (msg: string, meta: Meta) => void
+// `context` is reserved for internal use and injected automatically during logger creation.
+// To prevent accidental overrides, it is explicitly forbidden in the public API.
+export type LogMethod = (msg: string, meta: Meta & { context?: never }) => void
 
 export interface Logger {
 	debug: LogMethod
