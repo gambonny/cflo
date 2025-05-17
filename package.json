@@ -2,7 +2,7 @@
   "name": "@gambonny/cflo",
   "author": "Jonny Gamba",
   "sideEffects": false,
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Minimal, type-safe logger for Cloudflare Workers — pretty or JSON, with log level filtering and edge-safe methods only.",
   "main": "dist/index.mjs",
   "types": "dist/index.mts",
