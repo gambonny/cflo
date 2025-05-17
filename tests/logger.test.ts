@@ -70,10 +70,11 @@ describe("cflo logger", () => {
 			jsonOutput.push(msg)
 		})
 
-		const logger = createLogger(
-			{ level: "info", format: "json" },
-			{ request_id: "abc-123", region: "co" },
-		)
+		const logger = createLogger({
+			level: "info",
+			format: "json",
+			context: { request_id: "abc-123", region: "co" },
+		})
 
 		logger.info("with context", { user: "john" })
 

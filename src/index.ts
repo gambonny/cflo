@@ -2,18 +2,12 @@ import { validateLoggerConfig } from "@/contracts"
 import { formatLog } from "@/formatter"
 import { getSupportedLevels, shouldLogLevel } from "@/levels"
 import type { Logger, LoggerConfig } from "@/types"
-import type { JsonObject } from "type-fest"
 
-const supportedLevels = getSupportedLevels()
-
-export function createLogger(
-	input: LoggerConfig,
-	context?: JsonObject,
-): Logger {
-	const config = validateLoggerConfig(input)
+export function createLogger({ level, format, context }: LoggerConfig): Logger {
+	const config = validateLoggerConfig({ level, format })
 	const logger: Partial<Logger> = {}
 
-	for (const level of supportedLevels) {
+	for (const level of getSupportedLevels()) {
 		logger[level] = (msg, meta) => {
 			if (!shouldLogLevel(level, config.level)) return
 
@@ -26,7 +20,7 @@ export function createLogger(
 		get(target, prop) {
 			if (prop in target) return target[prop as keyof Logger]
 			console.warn(
-				`logger.${String(prop)} is not supported in this environment. Supported: ${supportedLevels.join(", ")}`,
+				`logger.${String(prop)} is not supported in this environment. Supported: ${getSupportedLevels().join(", ")}`,
 			)
 			return () => {}
 		},

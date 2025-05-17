@@ -48,16 +48,17 @@ If you configure `level: "warn"`, only `warn()` and `error()` will produce outpu
 ```ts
 import { createLogger } from '@gambonny/cflo'
 
-// `createLogger` takes two arguments:
-// 1. A config object (e.g. log level and format)
-// 2. An optional context object, injected into every log as `meta.context`
-// Useful for attaching request - or environment-level info like `request_id`, `region`, or `deployment_id`
+// `createLogger` accepts an options object.
+// - `level` and `format` define the logger's behavior.
+// - `context` is optional and will be injected into every log as `meta.context`.
+// Useful for adding environment-level metadata like `request_id`, `region`, or `deployment_id`.
 const logger = createLogger({
   level: 'info',
   format: 'json',
-}, {
-  request_id: 'abc-123',
-  region: 'us-east-1'
+  context{
+    request_id: 'abc-123',
+    region: 'us-east-1'
+  }
 })
 
 logger.info('User registered')
@@ -75,7 +76,7 @@ const logger = createLogger({
 
 If the config is invalid (e.g. `LOGGER_LEVEL="silent"`), `cflo` will:
 - Emit a warning via `console.warn`
-- Fallback to `level: "debug"` and `format: "pretty"`
+- Fallback to `level: "debug"` and `format: "json"`
 
 <br />
 
@@ -121,3 +122,4 @@ Only the following `console` methods are supported by the Workers runtime:
 - `console.error`
 
 Any unsupported method accessed via the logger (e.g. `logger.table()`) will emit a warning and do nothing.
+
