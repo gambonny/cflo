@@ -25,7 +25,10 @@ export function validateLoggerConfig(input: unknown): LoggerConfig {
 		)
 
 		// Recover context even if config validation failed
-		const { context: maybeContext } = result.output as UnknownRecord
+		const maybeContext =
+			typeof result.output === "object" && result.output !== null
+				? (result.output as UnknownRecord).context
+				: undefined
 		const contextResult = v.safeParse(ContextContract, maybeContext)
 
 		if (contextResult.success) {
