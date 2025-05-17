@@ -60,7 +60,7 @@ const logger = createLogger({
   region: 'us-east-1'
 })
 
-logger.info('User registered', { email: 'user@example.com' })
+logger.info('User registered')
 logger.debug('This won’t print unless level is set to "debug"')
 ```
 
