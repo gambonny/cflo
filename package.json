@@ -29,6 +29,7 @@
   "license": "MIT",
   "packageManager": "pnpm@10.10.0",
   "devDependencies": {
+    "hono": "^4.7.10",
     "@biomejs/biome": "^1.9.4",
     "tsdown": "^0.11.9",
     "type-fest": "^4.41.0",
@@ -41,5 +42,13 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "peerDependencies": {
+    "hono": "^4.7.10"
+  },
+  "peerDependenciesMeta": {
+    "hono": {
+      "optional": true
+    }
+  }
 }

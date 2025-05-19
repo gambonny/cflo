@@ -27,4 +27,5 @@ export function createLogger({ level, format, context }: LoggerConfig): Logger {
 	})
 }
 
+export { useLogger } from "@/integrations/hono/useLogger"
 export type { Logger, LoggerConfig } from "@/types"
