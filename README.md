@@ -119,9 +119,9 @@ This eliminates boilerplate and ensures consistent `meta.route` tagging across y
 
 ```ts
 import { Hono } from 'hono'
-import { useLogger } from '@gambonny/cflo'
+import { useLogger, type GetLoggerFn } from '@gambonny/cflo'
 
-const app = new Hono()
+const app = new Hono({ Variables: { getLogger: GetLoggerFn } })
 
 app.use(useLogger({
   level: env.LOGGER_LEVEL,
@@ -138,7 +138,7 @@ Once added, you can access a scoped logger using `c.var.getLogger(route)`:
 
 ```ts
 app.get('/signup', (c) => {
-  const logger = c.var.getLogger('auth.routes.signup')
+  const logger = c.var.getLogger({ route: 'auth.routes.signup' })
 
   logger.info('User signed up', {
     event: 'user.signup.success',

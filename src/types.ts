@@ -35,6 +35,4 @@ export interface Logger {
 	error: LogMethod
 }
 
-export interface LoggerContext {
-	getLogger: (route: DotSeparated) => Logger
-}
+export type GetLoggerFn = (opts?: { route?: DotSeparated }) => Logger
