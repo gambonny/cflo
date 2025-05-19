@@ -138,7 +138,7 @@ Once added, you can access a scoped logger using `c.var.getLogger(route)`:
 
 ```ts
 app.get('/signup', (c) => {
-  const logger = c.var.getLogger({ route: 'auth.routes.signup' })
+  const logger = c.var.getLogger({ route: 'auth.signup' })
 
   logger.info('User signed up', {
     event: 'user.signup.success',
