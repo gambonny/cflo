@@ -42,7 +42,6 @@ If you configure `level: "warn"`, only `warn()` and `error()` will produce outpu
 
 <br />
 
-
 ## Usage
 
 ```ts
@@ -81,6 +80,7 @@ If the config is invalid (e.g. `LOGGER_LEVEL="silent"`), `cflo` will:
 <br />
 
 ## Structured Logging
+
 You can optionally enrich your logs with a structured meta object.
 
 ```ts
@@ -111,6 +111,54 @@ If only one of `event` or `scope` is provided, TypeScript will raise an error.
 
 <br />
 
+## Hono Integration
+
+If you're using [Hono](https://hono.dev/) in your Cloudflare Worker, you can use the built-in middleware `useLogger()` to inject a route-scoped logger directly into your request context.
+
+This eliminates boilerplate and ensures consistent `meta.route` tagging across your app.
+
+```ts
+import { Hono } from 'hono'
+import { useLogger } from '@gambonny/cflo'
+
+const app = new Hono()
+
+app.use(useLogger({
+  level: env.LOGGER_LEVEL,
+  format: env.LOGGER_FORMAT,
+  context: {
+    appName: 'auth-worker',
+    hostname: env.ENVIRONMENT,
+    deployId: env.CF_VERSION_METADATA.id,
+  }
+}))
+```
+
+Once added, you can access a scoped logger using `c.var.getLogger(route)`:
+
+```ts
+app.get('/signup', (c) => {
+  const logger = c.var.getLogger('auth.routes.signup')
+
+  logger.info('User signed up', {
+    event: 'user.signup.success',
+    scope: 'db.insert',
+    user_id: 'u_123',
+  })
+
+  return c.text('ok')
+})
+```
+
+🧠 `getLogger(route)` ensures all logs within that route carry a consistent `meta.route` value, without needing to repeat it manually.
+
+> You can still override `route` explicitly in a single log call, but the default is injected automatically.
+
+> This integration is optional and fully tree-shakeable — `hono` is an optional peer dependency.
+
+🔗 See implementation details in [#4](https://github.com/gambonny/cflo/pull/4) – Add useLogger() middleware
+<br />
+
 ## ⚠️ Console methods support in Cloudflare Workers
 
 Only the following `console` methods are supported by the Workers runtime:
@@ -122,4 +170,3 @@ Only the following `console` methods are supported by the Workers runtime:
 - `console.error`
 
 Any unsupported method accessed via the logger (e.g. `logger.table()`) will emit a warning and do nothing.
-

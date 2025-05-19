@@ -34,3 +34,7 @@ export interface Logger {
 	warn: LogMethod
 	error: LogMethod
 }
+
+export interface LoggerContext {
+	getLogger: (route: DotSeparated) => Logger
+}
