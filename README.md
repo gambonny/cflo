@@ -161,7 +161,7 @@ app.post(
     const { email } = c.req.valid("form")
     const logger = c.var.getLogger({ route: "auth.signup.handler" })
 
-    logger.info("signup:started", {
+    logger.info("signup:handler:started", {
       event: "handler.started",
       scope: "handler.init",
       input: { email },
