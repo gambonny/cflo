@@ -152,7 +152,7 @@ app.post(
       event: "validation.failed",
       scope: "validator.schema",
       input: validation.output,
-      issues: v.flatten(validation.issues).nested,
+      issues: valibot.flatten(validation.issues).nested,
     })
 
     return c.json({ status: "error", error: "Invalid input" }, 400)
