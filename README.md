@@ -138,39 +138,38 @@ Once added, you can access a scoped logger using `c.var.getLogger(route)`:
 
 ```ts
 app.post(
-	"/signup",
-	validator("form", async (body, c) => {
-		const validation = v.safeParse(signupContract, body)
+  "/signup",
+  validator("form", async (body, c) => {
+    const validation = valibot.safeParse(signupContract, body)
 
-		if (validation.success) {
-			return validation.output
-		}
+    if (validation.success) {
+      return validation.output
+    }
 
-		const logger = c.var.getLogger({ route: "auth.signup.validator" })
+    const logger = c.var.getLogger({ route: "auth.signup.validator" })
 
-		logger.warn("signup:validation:failed", {
-			event: "validation.failed",
-			scope: "validator.schema",
-			input: validation.output,
-			issues: v.flatten(validation.issues).nested,
-		})
+    logger.warn("signup:validation:failed", {
+      event: "validation.failed",
+      scope: "validator.schema",
+      input: validation.output,
+      issues: v.flatten(validation.issues).nested,
+    })
 
-		return c.json({ status: "error", error: "Invalid input" }, 400)
-	}),
-	c => {
-		const { email } = c.req.valid("form")
-		const logger = c.var.getLogger({ route: "auth.signup.handler" })
+    return c.json({ status: "error", error: "Invalid input" }, 400)
+  }),
+  c => {
+    const { email } = c.req.valid("form")
+    const logger = c.var.getLogger({ route: "auth.signup.handler" })
 
-		logger.info("signup:started", {
-			event: "handler.started",
-			scope: "handler.init",
-			input: { email },
-		})
+    logger.info("signup:started", {
+      event: "handler.started",
+      scope: "handler.init",
+      input: { email },
+    })
 
-		return c.text("Hello Hono!")
-	},
+    return c.text("Hello Hono!")
+  },
 )
-
 ```
 
 🧠 `getLogger(route)` ensures all logs within that route carry a consistent `meta.route` value, without needing to repeat it manually.
