@@ -1,0 +1,10 @@
+pre-commit:
+  parallel: true
+  commands:
+    biome:
+      glob: "src/**/*.{ts,tsx}"
+      run: pnpm lint:fix -- {staged_files}
+    typecheck:
+      run: pnpm typecheck
+    test:
+      run: pnpm test:related {staged_files}

@@ -7,8 +7,10 @@
   "main": "dist/index.mjs",
   "types": "dist/index.mts",
   "scripts": {
+    "prepare": "lefthook install",
     "build": "tsdown",
     "test": "vitest run",
+    "test:related": "vitest related --run",
     "lint": "biome check ./src",
     "lint:fix": "biome check --fix --unsafe ./src",
     "typecheck": "tsc --noEmit"
@@ -29,8 +31,9 @@
   "license": "MIT",
   "packageManager": "pnpm@10.10.0",
   "devDependencies": {
-    "hono": "^4.7.10",
     "@biomejs/biome": "^1.9.4",
+    "hono": "^4.7.10",
+    "lefthook": "^1.11.13",
     "tsdown": "^0.11.9",
     "type-fest": "^4.41.0",
     "typescript": "^5.8.3",
