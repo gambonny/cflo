@@ -54,7 +54,7 @@ import { createLogger } from '@gambonny/cflo'
 const logger = createLogger({
   level: 'info',
   format: 'json',
-  context{
+  context: {
     request_id: 'abc-123',
     region: 'us-east-1'
   }
