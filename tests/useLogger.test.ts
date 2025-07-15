@@ -16,24 +16,23 @@ describe("useLogger middleware", () => {
 		}
 	})
 
-	it("injects getLogger into context and logs with correct route", async () => {
+	it("injects getLogger context (route + extra keys) into every log", async () => {
 		const app = new Hono<{
 			Variables: { getLogger: GetLoggerFn }
 		}>()
 
-		const config: LoggerConfig = {
-			level: "info",
-			format: "json",
-		}
-
+		const config: LoggerConfig = { level: "info", format: "json" }
 		app.use(useLogger(config))
 
 		app.get("/signup", c => {
-			const logger = c.var.getLogger({ route: "auth.routes.signup" })
+			const logger = c.var.getLogger({
+				route: "auth.routes.signup",
+				email_hash: "deadbeef",
+				user_id: "u_456",
+			})
 			logger.info("User signed up", {
 				event: "user.signup.success",
 				scope: "db.write",
-				user_id: "u_456",
 			})
 			return c.text("ok")
 		})
@@ -41,28 +40,27 @@ describe("useLogger middleware", () => {
 		const res = await app.request("/signup")
 		expect(res.status).toBe(200)
 
-		const log = outputs.find(line => line.includes("User signed up"))
-		if (!log)
-			throw new Error("Expected log containing 'User signed up' not found")
+		const logLine = outputs.find(l => l.includes("User signed up"))
+		if (!logLine) throw new Error("Expected log not found")
 
-		const json = JSON.parse(log)
+		const json = JSON.parse(logLine)
+
 		expect(json.level).toBe("info")
-		expect(json.meta.route).toBe("auth.routes.signup")
-		expect(json.meta.event).toBe("user.signup.success")
-		expect(json.meta.scope).toBe("db.write")
-		expect(json.meta.user_id).toBe("u_456")
+		expect(json.meta).toEqual({
+			event: "user.signup.success",
+			scope: "db.write",
+			route: "auth.routes.signup",
+			email_hash: "deadbeef",
+			user_id: "u_456",
+		})
 	})
 
-	it("logs correctly when getLogger is called with no route", async () => {
+	it("logs correctly when getLogger is called with no route/context", async () => {
 		const app = new Hono<{
 			Variables: { getLogger: GetLoggerFn }
 		}>()
 
-		const config: LoggerConfig = {
-			level: "info",
-			format: "json",
-		}
-
+		const config: LoggerConfig = { level: "info", format: "json" }
 		app.use(useLogger(config))
 
 		app.get("/health", c => {
@@ -77,10 +75,11 @@ describe("useLogger middleware", () => {
 		const res = await app.request("/health")
 		expect(res.status).toBe(200)
 
-		const log = outputs.find(line => line.includes("health:ping"))
-		if (!log) throw new Error("Expected log containing 'health:ping' not found")
+		const logLine = outputs.find(l => l.includes("health:ping"))
+		if (!logLine) throw new Error("Expected log not found")
 
-		const json = JSON.parse(log)
+		const json = JSON.parse(logLine)
+
 		expect(json.level).toBe("info")
 		expect(json.meta.route).toBeUndefined() // no route injected
 		expect(json.meta.event).toBe("system.health.ping")

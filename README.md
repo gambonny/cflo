@@ -113,15 +113,15 @@ If only one of `event` or `scope` is provided, TypeScript will raise an error.
 
 ## Hono Integration
 
-If you're using [Hono](https://hono.dev/) in your Cloudflare Worker, you can use the built-in middleware `useLogger()` to inject a route-scoped logger directly into your request context.
+If you're using [Hono](https://hono.dev/) in your Cloudflare Worker, you can use the built‑in middleware `useLogger()` to inject a context‑aware logger into every route handler.
 
-This eliminates boilerplate and ensures consistent `meta.route` tagging across your app.
+The factory `c.var.getLogger(ctx?)` accepts an optional context map—pass a `route` (as a dot‑separated string) plus any extra key/value pairs—and all of those fields will be merged into the `meta` of each log entry.
 
 ```ts
 import { Hono } from 'hono'
 import { useLogger, type GetLoggerFn } from '@gambonny/cflo'
 
-const app = new Hono({ Variables: { getLogger: GetLoggerFn } })
+const app = new Hono<{ Variables: { getLogger: GetLoggerFn } }>()
 
 app.use(useLogger({
   level: env.LOGGER_LEVEL,
@@ -130,65 +130,31 @@ app.use(useLogger({
     appName: 'auth-worker',
     hostname: env.ENVIRONMENT,
     deployId: env.CF_VERSION_METADATA.id,
-  }
-}))
-```
-
-Once added, you can access a scoped logger using `c.var.getLogger(route)`:
-
-```ts
-app.post(
-  "/signup",
-  validator("form", async (body, c) => {
-    const validation = valibot.safeParse(signupContract, body)
-
-    if (validation.success) {
-      return validation.output
-    }
-
-    const logger = c.var.getLogger({ route: "auth.signup.validator" })
-
-    logger.warn("signup:validation:failed", {
-      event: "validation.failed",
-      scope: "validator.schema",
-      input: validation.output,
-      issues: valibot.flatten(validation.issues).nested,
-    })
-
-    return c.json({ status: "error", error: "Invalid input" }, 400)
-  }),
-  c => {
-    const { email } = c.req.valid("form")
-    const logger = c.var.getLogger({ route: "auth.signup.handler" })
-
-    logger.info("signup:handler:started", {
-      event: "handler.started",
-      scope: "handler.init",
-      input: { email },
-    })
-
-    return c.text("Hello Hono!")
   },
-)
-```
+}))
 
-🧠 `getLogger(route)` ensures all logs within that route carry a consistent `meta.route` value, without needing to repeat it manually.
+app.get('/signup', c => {
+  // Pass route + any additional fields
+  const logger = c.var.getLogger({
+    route: 'auth.routes.signup',
+    email_hash: 'deadbeef',
+    user_id: 'u_456',
+  })
 
-> You can still override `route` explicitly in a single log call, but the default is injected automatically.
+  logger.info('User signed up', {
+    event: 'user.signup.success',
+    scope: 'db.write',
+  })
 
-> This integration is optional and fully tree-shakeable — `hono` is an optional peer dependency.
+  return c.text('ok')
+})
 
-🔗 See implementation details in [#4](https://github.com/gambonny/cflo/pull/4) – Add useLogger() middleware
-<br />
-
-## ⚠️ Console methods support in Cloudflare Workers
-
-Only the following `console` methods are supported by the Workers runtime:
-
-- `console.debug`
-- `console.info`
-- `console.log`
-- `console.warn`
-- `console.error`
-
-Any unsupported method accessed via the logger (e.g. `logger.table()`) will emit a warning and do nothing.
+app.get('/health', c => {
+  // No context object: only the base context (appName, hostname, deployId)
+  const logger = c.var.getLogger()
+  logger.info('health:ping', {
+    event: 'system.health.ping',
+    scope: 'system.health',
+  })
+  return c.text('ok')
+})

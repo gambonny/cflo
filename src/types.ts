@@ -35,4 +35,12 @@ export interface Logger {
 	error: LogMethod
 }
 
-export type GetLoggerFn = (opts?: { route?: DotSeparated }) => Logger
+export type ContextMap<
+	Extra extends Record<string, unknown> = Record<string, unknown>,
+> = (Extra & { route?: DotSeparated }) | undefined
+
+export type GetLoggerFn = <
+	T extends Record<string, unknown> = Record<string, unknown>,
+>(
+	ctx?: ContextMap<T>,
+) => Logger
