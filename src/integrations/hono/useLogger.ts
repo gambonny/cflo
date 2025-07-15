@@ -1,29 +1,24 @@
 import { createLogger } from "@/index"
 import type { GetLoggerFn, Logger, LoggerConfig, Meta } from "@/types"
-import type { DotSeparated } from "@/types"
 import type { MiddlewareHandler } from "hono"
 
 export function useLogger(config: LoggerConfig): MiddlewareHandler {
-	const logger = createLogger(config)
+	const baseLogger = createLogger(config)
 
 	return async (c, next) => {
-		// Inject getLogger(route) into c.var
-		c.set("getLogger", (({ route }: { route?: DotSeparated } = {}): Logger => {
-			const scopedLogger: Partial<Logger> = {}
+		const getLogger: GetLoggerFn = context => {
+			const scoped: Partial<Logger> = {}
 
-			for (const level of Object.keys(logger) as Array<keyof Logger>) {
-				scopedLogger[level] = (msg: string, meta?: Meta) => {
-					const mergedMeta: Meta = {
-						...meta,
-						...(route && !meta?.route ? { route } : {}),
-					}
-					logger[level](msg, mergedMeta)
+			for (const lvl of Object.keys(baseLogger) as Array<keyof Logger>) {
+				scoped[lvl] = (msg: string, meta?: Meta) => {
+					const merged: Meta = { ...(context ?? {}), ...(meta ?? {}) }
+					baseLogger[lvl](msg, merged)
 				}
 			}
+			return scoped as Logger
+		}
 
-			return scopedLogger as Logger
-		}) satisfies GetLoggerFn)
-
+		c.set("getLogger", getLogger)
 		await next()
 	}
 }
